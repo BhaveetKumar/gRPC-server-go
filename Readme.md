@@ -1,42 +1,59 @@
-## gRPC-Server 
+# gRPC Blog Post Service
 
-#### 
-All API's are gRPC based API's.
+A simple gRPC-based API in Go for managing blog posts with CRUD operations.
 
-####
-**Objective:** Develop a gRPC-based API in Golang to manage blog posts for a hypothetical
-blogging platform. The API should support CRUD operations for blog posts, and each post
-should have the following attributes:
-****
-1. PostID (unique identifier)
-2. Title
-3. Content
-4. Author
-5. Publication Date
-6. Tags (multiple tags per post)
-****
+## Features
 
-####
-API Supports the following operations:
+- **gRPC API** with 4 operations: Create, Get, Update, Delete
+- **In-memory storage** for blog posts
+- **Input/output logging** for all requests
+- **Unit tests** for all layers
 
-**Create Post**
-*Input*: Post details (Title, Content, Author, Publication Date, Tags)
-*Output*: The Post (PostID, Title, Content, Author, Publication Date, Tags). Error message, if
-creation fails.
+## Quick Start
 
+Run automated tests and interactive client:
+```bash
+./scripts/test_crud.sh
+```
 
-**Read Post**
-*Input*: PostID of the post to retrieve
-*Output*: Post details (PostID, Title, Content, Author, Publication Date, Tags) or an error message
-if the post is not found.
+The script will:
+1. Start the gRPC server on `localhost:50051`
+2. Run automated CRUD tests
+3. Enter interactive mode where you can manually test operations
 
+## API Operations
 
-**Update Post**
-**Input*:* PostID of the post to update and new details (Title, Content, Author, Tags)
-**Output**: Post details (PostID, Title, Content, Author, Publication Date, Tags) or error message if
-the update failed
+- `CreatePost` - Create a new blog post
+- `GetPost` - Retrieve a post by ID
+- `UpdatePost` - Update an existing post
+- `DeletePost` - Remove a post
 
+See `proto/blog/v1/blog.proto` for the complete API definition.
 
-**Delete Post**
-*Input*: PostID of the post to delete
-*Output*: Success/Failure message
+## Project Structure
+
+```
+cmd/server/        - gRPC server
+cmd/client/        - CLI client
+internal/handler/  - gRPC request handlers
+internal/service/  - Business logic
+internal/repository/ - In-memory data storage
+proto/blog/v1/     - Protocol buffer definitions
+test/              - Unit and integration tests
+```
+
+## Configuration
+
+Edit `.env` file to configure:
+- Server host and port
+- Client timeout
+- Request ID logging (disabled by default)
+
+## Testing
+
+Run all tests:
+```bash
+go test ./...
+```
+
+39 tests covering repository, service, handler, and integration layers.

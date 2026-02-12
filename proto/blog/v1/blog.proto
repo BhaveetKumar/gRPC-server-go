@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package blog.v1;
+
+option go_package = "github.com/BhaveetKumar/gRPC-server-go/proto/blog/v1;blogv1";
+
+message Post {
+  string post_id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
+  string publication_date = 5;
+  repeated string tags = 6;
+}
+
+message CreatePostRequest {
+  string title = 1;
+  string content = 2;
+  string author = 3;
+  string publication_date = 4;
+  repeated string tags = 5;
+}
+
+message CreatePostResponse {
+  Post post = 1;
+}
+
+message GetPostRequest {
+  string post_id = 1;
+}
+
+message GetPostResponse {
+  Post post = 1;
+}
+
+message UpdatePostRequest {
+  string post_id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
+  repeated string tags = 5;
+}
+
+message UpdatePostResponse {
+  Post post = 1;
+}
+
+message DeletePostRequest {
+  string post_id = 1;
+}
+
+message DeletePostResponse {
+  bool success = 1;
+}
+
+service BlogService {
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc GetPost(GetPostRequest) returns (GetPostResponse);
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse);
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse);
+}
